@@ -1,0 +1,246 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/*
+  Identitas visual P3L
+  - Navy   : institusi, kepercayaan (latar hero, teks judul)
+  - Hijau  : lingkungan, air olahan, PROPER (aksi utama)
+  - Garis "flow": gradasi lumpur → air jernih, simbol proses pengolahan limbah.
+*/
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy-950: #061629;
+  --color-navy-900: #0b2545;
+  --color-navy-800: #13315c;
+  --color-navy-700: #1d4677;
+  --color-navy-100: #e3eaf3;
+
+  --color-green-800: #075e48;
+  --color-green-700: #0b7a5e;
+  --color-green-600: #0e8f6e;
+  --color-green-400: #3ccb9b;
+  --color-green-100: #d9f2e8;
+  --color-green-50: #edf8f3;
+
+  --color-paper: #f3f6f5;
+  --color-ink: #0e1c2b;
+  --color-muted: #536373;
+  --color-line: #dbe3e0;
+  --color-sludge: #8a4b2a;
+  --color-amber-700: #a35f12;
+  --color-amber-50: #fdf5e6;
+
+  --radius-card: 1rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+}
+
+:root {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #0e1c2b;
+  --border: #dbe3e0;
+  --ring: #0e8f6e;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'ss01' on;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-green-600);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Lebar konten meniru situs referensi (suryasarana.com): container maksimum 1349px dengan padding 24px,
+     jadi isi 1301px dan tengah di layar lebar; header, hero, dan semua seksi memakai lebar yang sama. */
+  .container-x {
+    width: 100%;
+    max-width: 1349px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-x {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  /* Hero beranda: tepat satu layar di bawah header (4.5rem + 1px garis), garis gradasi menempel di tepi bawah layar.
+     Tinggi dikunci (bukan min-height) agar ujung bawah selalu di garis gradasi; isi menyesuaikan tinggi layar. */
+  .hero-screen {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-screen > .container-x {
+    flex: 1;
+  }
+  @media (min-width: 1024px) {
+    .hero-screen {
+      height: max(34rem, calc(100vh - 4.5rem - 1px));
+      height: max(34rem, calc(100svh - 4.5rem - 1px));
+    }
+    .hero-title {
+      font-size: clamp(2.25rem, min(1.2rem + 3.4vw, 6.4svh), 4.5rem) !important; /* menimpa utilitas text-[...] di JSX */
+    }
+    .hero-photo {
+      height: clamp(18rem, 56svh, 40rem);
+    }
+  }
+  /* Gradasi lumpur → air jernih */
+  .flow-line {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #8a4b2a 0%, #b98a3e 22%, #0e8f6e 62%, #8fe0cb 100%);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    padding: 0.8rem 1.35rem;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+    /* Label panjang harus turun baris di layar sempit, bukan melebar keluar kartu/modal. */
+    text-align: center;
+    max-width: 100%;
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-green-700);
+    color: #fff;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 6px 16px -6px rgba(11, 122, 94, 0.55);
+  }
+  .btn-primary:hover {
+    background: var(--color-green-800);
+  }
+  .btn-navy {
+    background: var(--color-navy-900);
+    color: #fff;
+  }
+  .btn-navy:hover {
+    background: var(--color-navy-800);
+  }
+  .btn-outline {
+    border: 1.5px solid var(--color-line);
+    color: var(--color-navy-900);
+    background: #fff;
+  }
+  .btn-outline:hover {
+    border-color: var(--color-navy-900);
+  }
+  .btn-on-dark {
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    color: #fff;
+  }
+  .btn-on-dark:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .section {
+    padding-block: 4.5rem;
+  }
+  @media (min-width: 1024px) {
+    .section {
+      padding-block: 6rem;
+    }
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+    line-height: 1.12;
+    font-weight: 800;
+    color: var(--color-navy-900);
+  }
+  .section-lead {
+    margin-top: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+    max-width: 44rem;
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 0.65rem;
+    border: 1.5px solid var(--color-line);
+    background: #fff;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .field::placeholder {
+    color: #8a98a5;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-green-600);
+    box-shadow: 0 0 0 3px rgba(14, 143, 110, 0.15);
+  }
+  .label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-navy-900);
+    margin-bottom: 0.4rem;
+  }
+
+  .prose-p3l p {
+    margin-bottom: 1.15em;
+    line-height: 1.8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

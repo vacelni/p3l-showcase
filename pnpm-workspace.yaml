@@ -1,0 +1,13 @@
+allowBuilds:
+  msw: true
+  sharp: true
+  # Verifies the native resolver binary used by eslint-plugin-import.
+  unrs-resolver: true
+  # Skrip postinstall paket ini tidak diperlukan untuk build.
+  '@vercel/speed-insights': false
+
+# Paksa versi yang sudah menambal celah keamanan (dipakai hanya saat build).
+overrides:
+  browserslist: 4.29.3
+  source-map-js: 1.2.2
+  baseline-browser-mapping: 2.11.27
